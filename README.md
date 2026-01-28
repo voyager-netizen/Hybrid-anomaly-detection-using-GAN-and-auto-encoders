@@ -80,3 +80,15 @@ Matplotlib
 
 Google Colab
 
+## 📄 Research Paper
+
+This project is based on our IEEE published research:
+
+**A Hybrid Deep Learning Approach for Detecting Anomalies in Real-Time Data Streams**  
+
+Published in: 2025 6th International Conference for Emerging Technology (INCET)
+
+🔗 IEEE Xplore Link: https://ieeexplore.ieee.org/document/11140026
+
+If you use this code, please cite the paper.
+
