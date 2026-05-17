@@ -1,94 +1,267 @@
-Overview
+# Hybrid Anomaly Detection using GANs and Autoencoders
 
-This project implements a hybrid anomaly detection framework that combines the strengths of Autoencoders and Generative Adversarial Networks (GANs) to identify anomalous patterns in data.
+A deep learning–based anomaly detection framework that combines **Autoencoders** and **Generative Adversarial Networks (GANs)** to detect anomalous patterns in highly imbalanced datasets.
 
-The approach is designed for highly imbalanced datasets, where anomalies are rare and difficult to model using traditional supervised techniques. The system is demonstrated on the Credit Card Fraud Detection dataset, but the framework is generic and can be adapted to other anomaly detection problems such as network intrusion, system failures, or financial risk detection.
+This project demonstrates the approach using the **Credit Card Fraud Detection Dataset**, where fraudulent transactions represent only a tiny fraction of the overall data. The framework is designed to model normal behavior effectively and identify deviations with improved robustness compared to standalone anomaly detection methods.
 
-Motivation
+---
 
-Traditional anomaly detection methods often rely on:
+# Overview
 
-Reconstruction error alone (Autoencoders), or
+Traditional anomaly detection techniques often struggle with highly imbalanced datasets because anomalous samples are rare and difficult to model directly.
 
-Distribution learning alone (GANs)
+This project introduces a **hybrid architecture** that leverages:
 
-Each has limitations when used independently.
+- **Autoencoders** for reconstruction-based anomaly detection
+- **GANs** for distribution-based anomaly detection
 
-This project hybridizes both approaches:
+By combining both approaches, the model captures:
 
-Autoencoders capture normal behavior via reconstruction
+- Individual sample reconstruction deviations
+- Global distribution inconsistencies
 
-GANs capture data distribution discrepancies
+The resulting system produces a more stable and reliable anomaly score for detecting suspicious data points.
 
-The combination leads to more robust and stable anomaly scores.
+---
 
-Architecture
-1. Autoencoder
+# Motivation
 
-Trained only on normal samples
+Conventional deep learning approaches for anomaly detection typically rely on either:
 
-Learns a compact latent representation
+## Autoencoders
 
-Anomalies produce high reconstruction error
+- Learn compressed representations of normal data
+- Detect anomalies using reconstruction error
+- Limitation: may fail to capture broader distribution shifts
 
-2. GAN
+## GANs
 
-Generator learns to mimic normal data distribution
+- Learn the distribution of normal data
+- Detect anomalies through discriminator behavior
+- Limitation: training instability and weak sample-level reconstruction insight
 
-Discriminator distinguishes real vs generated samples
+This project combines both methods to exploit their complementary strengths.
 
-Discriminator confidence is used as an anomaly signal
+---
 
-3. Hybrid Anomaly Score
+# Architecture
 
-The final anomaly score is computed as:
+## 1. Autoencoder
 
+The autoencoder is trained exclusively on normal samples.
+
+### Purpose
+
+- Learn latent representations of normal behavior
+- Reconstruct normal data with minimal loss
+
+### Observation
+
+Anomalous samples typically produce:
+
+- Higher reconstruction error
+- Poor latent representation quality
+
+---
+
+## 2. Generative Adversarial Network (GAN)
+
+The GAN consists of:
+
+- **Generator** → attempts to generate realistic normal samples
+- **Discriminator** → distinguishes real data from generated data
+
+### Purpose
+
+- Learn the distribution of normal transactions
+- Identify abnormal samples through discriminator confidence
+
+---
+
+## 3. Hybrid Anomaly Scoring
+
+The final anomaly score combines:
+
+- Reconstruction error from the autoencoder
+- Distribution discrepancy from the GAN discriminator
+
+### Formula
+
+```text
 Anomaly Score =
 Reconstruction Error
 + (1 − |Discriminator(real) − Discriminator(fake)|)
+```
 
+This hybrid scoring mechanism improves robustness by capturing both:
 
-This balances sample-level deviation and distribution-level deviation.
+- Sample-level deviations
+- Distribution-level abnormalities
 
-Dataset
+---
 
-Credit Card Fraud Detection Dataset
+# Dataset
 
-Contains anonymized transaction features
+## Credit Card Fraud Detection Dataset
 
-Highly imbalanced (fraud ≈ 0.17%)
+The project uses the publicly available credit card fraud dataset containing anonymized transaction features.
 
-Only numerical features used
+### Dataset Characteristics
 
-Data scaled using MinMaxScaler
+- Highly imbalanced dataset
+- Fraudulent transactions ≈ 0.17%
+- Numerical features only
+- Preprocessed using `MinMaxScaler`
 
-Note: The model is trained only on normal (non-fraud) samples, which is standard practice in anomaly detection.
+### Training Strategy
 
-Technologies Used
+The model is trained only on **normal (non-fraudulent)** samples, which is a standard approach in unsupervised anomaly detection.
 
-Python
+---
 
-PyTorch
+# Features
 
-NumPy
+- Hybrid anomaly detection framework
+- Autoencoder + GAN integration
+- Handles highly imbalanced datasets
+- PyTorch-based implementation
+- Reconstruction and discriminator-based scoring
+- Easily adaptable to other anomaly detection domains
 
-Pandas
+---
 
-Scikit-learn
+# Potential Applications
 
-Matplotlib
+This framework can be extended to several real-world anomaly detection problems, including:
 
-Google Colab
+- Financial fraud detection
+- Network intrusion detection
+- System failure prediction
+- IoT anomaly monitoring
+- Industrial fault detection
+- Real-time risk analysis
 
-## 📄 Research Paper
+---
 
-This project is based on our IEEE published research:
+# Tech Stack
 
-**A Hybrid Deep Learning Approach for Detecting Anomalies in Real-Time Data Streams**  
+- Python
+- PyTorch
+- NumPy
+- Pandas
+- Scikit-learn
+- Matplotlib
+- Google Colab
 
-Published in: 2025 6th International Conference for Emerging Technology (INCET)
+---
 
-🔗 IEEE Xplore Link: https://ieeexplore.ieee.org/document/11140026
+# Project Structure
 
-If you use this code, please cite the paper.
+```text
+Hybrid-anomaly-detection-using-GAN-and-auto-encoders/
+│
+├── notebooks/                 # Training and experimentation notebooks
+├── models/                    # Saved model weights
+├── dataset/                   # Dataset files
+├── results/                   # Evaluation plots and outputs
+├── utils/                     # Helper functions and preprocessing
+├── README.md
+└── requirements.txt
+```
 
+---
+
+# Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/aditya-m-mishra/Hybrid-anomaly-detection-using-GAN-and-auto-encoders.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd Hybrid-anomaly-detection-using-GAN-and-auto-encoders
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Usage
+
+Run the training notebook or script to:
+
+- Preprocess the dataset
+- Train the autoencoder
+- Train the GAN
+- Compute hybrid anomaly scores
+- Evaluate anomaly detection performance
+
+---
+
+# Results
+
+The hybrid approach improves anomaly detection by combining:
+
+- Reconstruction-based learning
+- Distribution-based adversarial learning
+
+This leads to:
+
+- Better detection sensitivity
+- Improved robustness on imbalanced datasets
+- More stable anomaly scoring compared to standalone models
+
+---
+
+# Research Paper
+
+This project is based on our IEEE published research paper:
+
+## **A Hybrid Deep Learning Approach for Detecting Anomalies in Real-Time Data Streams**
+
+Published in:
+
+**2025 6th International Conference for Emerging Technology (INCET)**
+
+🔗 IEEE Xplore:  
+https://ieeexplore.ieee.org/document/11140026
+
+---
+
+# Citation
+
+If you use this work in your research or projects, please cite the paper.
+
+```bibtex
+@inproceedings{hybrid_anomaly_detection_2025,
+  title={A Hybrid Deep Learning Approach for Detecting Anomalies in Real-Time Data Streams},
+  booktitle={2025 6th International Conference for Emerging Technology (INCET)},
+  year={2025}
+}
+```
+
+---
+
+# Future Improvements
+
+- Real-time streaming anomaly detection
+- Transformer-based anomaly modeling
+- Explainable AI for anomaly interpretation
+- Adaptive thresholding methods
+- Deployment using Flask/FastAPI
+
+---
+
+# Author
+
+**Aditya Mishra**
+
+GitHub:  
+https://github.com/aditya-m-mishra
