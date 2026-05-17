@@ -259,9 +259,3 @@ If you use this work in your research or projects, please cite the paper.
 
 ---
 
-# Author
-
-**Aditya Mishra**
-
-GitHub:  
-https://github.com/aditya-m-mishra
